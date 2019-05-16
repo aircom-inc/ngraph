@@ -118,3 +118,18 @@ vector<runtime::PerformanceCounter> runtime::Executable::get_performance_data() 
 {
     return vector<PerformanceCounter>();
 }
+
+bool runtime::Executable::begin_execute_helper(const vector<shared_ptr<runtime::Tensor>>& outputs,
+                                               const vector<shared_ptr<runtime::Tensor>>& inputs)
+{
+    bool rc = call(outputs, inputs);
+    return rc;
+}
+
+future<bool> runtime::Executable::begin_execute(const vector<shared_ptr<runtime::Tensor>>& outputs,
+                                                const vector<shared_ptr<runtime::Tensor>>& inputs)
+{
+    using namespace std::placeholders;
+    auto bound_f = bind(&Executable::begin_execute_helper, this, _1, _2);
+    return async(bound_f, outputs, inputs);
+}
