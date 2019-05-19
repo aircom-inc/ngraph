@@ -85,3 +85,11 @@ bool runtime::Backend::is_supported_property(const Property prop) const
 void runtime::Backend::remove_compiled_function(std::shared_ptr<Executable> exec)
 {
 }
+
+void runtime::Backend::post_write(const void* p, size_t size_in_bytes, std::promise<void>& promise)
+{
+}
+
+void runtime::Backend::post_read(void* p, size_t size_in_bytes, std::promise<void>& promise)
+{
+}
